@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC</title>
+    <meta name="viewport" content="width=1080">
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #root {
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .left-side {
+            width: 30%;
+            min-height: 100vh;
+            border-right: 1px solid #eee;
+            padding: 15px 15px 15px 0;
+        }
+
+        .right-side {
+            width: 70%;
+            padding: 15px;
+        }
+
+        .lists__add {
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0 0 16px 0;
+        }
+
+        .lists__add__input {
+            width: calc(100% - 56px);
+            height: 48px;
+            padding: 0 8px 0 8px;
+            background-color: #EFEEEE;
+            border: 2px solid #E0DEDE;
+            border-radius: 2px;
+            display: block;
+        }
+
+        .lists__add__input:focus {
+            background-color: #fff;
+            border: 2px solid #43D4FF ;
+        }
+
+        .lists__add__submit {
+            background: linear-gradient(135deg, #43D4FF 13.54%, #2974FA 85.42%);
+            box-shadow: 0px 5px 10px rgba(0,0,0,0.05);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            border: none;
+            margin: 0 0 0 8px;
+            color: #fff;
+            font-size: 40px;
+        }
+
+        .list {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0 0 8px 0;
+            width: calc(100% - 56px);
+        }
+
+        .list__text {
+            width: calc(100% - 32px);
+            padding: 0 8px 0 8px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            background-color: transparent;
+            border: none;
+        }
+
+        .list__text_mark:before {
+            content: "→ "
+        }
+
+        .list__delete {
+            background: linear-gradient(136.08deg, #F1731E 28.11%, #E71D36 83.33%);
+            box-shadow: 0px 5px 10px rgba(0,0,0,0.05);
+            transform: rotate(45deg);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            border: none;
+            margin: 0 0 0 8px;
+            color: #fff;
+            font-size: 26px;
+        }
+
+        .headline {
+            font-size: 32px;
+            margin: 0 0 8px 0;
+        }
+
+        .progres {
+            font-size: 24px;
+            color: #a9a6a6;
+            margin: 0 0 24px 0;
+        }
+
+        .cases-add {
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0 0 16px 0;
+        }
+
+        .cases-add__input {
+            width: calc(100% - 40px);
+            height: 32px;
+            padding: 0 8px 0 8px;
+            background-color: #EFEEEE;
+            border: 2px solid #E0DEDE;
+            border-radius: 2px;
+            display: block;
+        }
+
+        .cases-add__input:focus {
+            background-color: #fff;
+            border: 2px solid #43D4FF ;
+        }
+
+        .cases-add__submit {
+            background: linear-gradient(135deg, #43D4FF 13.54%, #2974FA 85.42%);
+            box-shadow: 0px 5px 10px rgba(0,0,0,0.05);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            border: none;
+            margin: 0 0 0 8px;
+            color: #fff;
+            font-size: 32px;
+        }
+
+        .case {
+            display: flex;
+            align-items: flex-start;
+            align-content: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0 0 16px 0;
+            width: calc(100% - 40px);
+            position: relative;
+        }
+        .cases_drag .case:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .case__done {
+            background-color: transparent;
+            border: 1px solid #333;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            margin: 0 8px 0 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .case_done .case__done {
+            background-color: #79D70F;
+            border: none;
+            color: #fff;
+        }
+
+        .case__text {
+            width: calc(100% - 120px);
+            padding: 8px 0 0 8px;
+        }
+
+        .case__drag {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            border: none;
+            margin: 0 0 0 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            color: #ddd;
+            background-color: transparent;
+        }
+
+        .case__delete {
+            background: linear-gradient(136.08deg, #F1731E 28.11%, #E71D36 83.33%);
+            box-shadow: 0px 5px 10px rgba(0,0,0,0.05);
+            transform: rotate(45deg);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: block;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            border: none;
+            margin: 0 0 0 8px;
+            color: #fff;
+            font-size: 32px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    
+    
+    <script>
+        function Model() {
+            this.state = {
+                newListText: '',
+                newCaseText: '',
+                lists: JSON.parse(localStorage.getItem('lists')) || [],
+            };
+
+            this.getCurrentListMarkIndex = function() {
+                var listMarkIndex;
+                for (var index = 0; index < this.state.lists.length; index++) {
+                    var list = this.state.lists[index];
+                    if (list.mark) {
+                        listMarkIndex = index;
+                    }
+                }
+                return listMarkIndex;
+            }
+
+            this.getProgress = function() {
+                var countMarkedCase = 0;
+                var casesSumm = this.state.lists[this.getCurrentListMarkIndex()].cases.length;
+                for (var index = 0; index < casesSumm; index++) {
+                    var caseInit = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    if (caseInit.done) {
+                        countMarkedCase++;
+                    }
+                }
+                return countMarkedCase+'/'+casesSumm;
+            }
+
+            this.arrayMoveMutate = function(array, from, to) {
+                var startIndex = to < 0 ? array.length + to : to;
+                var item = array.splice(from, 1)[0];
+                array.splice(startIndex, 0, item);
+            };
+
+            this.arrayMove = function(array, from, to) {
+                array = array.slice();
+                this.arrayMoveMutate(array, from, to);
+                return array;
+            };
+
+            this.bindDisplayAddList = function(callback) {   
+                this.displayAddList = callback;
+            }
+
+            this.addList = function() {
+                if (this.state.newListText) {
+                    var newList = {
+                        name: this.state.newListText,
+                        id: Date.now(),
+                        cases: [],
+                        mark: false,
+                    }
+                    this.state.lists.push(newList)
+                    
+                    this.changeNewTextListModel('')
+                    this.displayAddList(newList);
+                    localStorage.setItem('lists', JSON.stringify(this.state.lists))
+                }
+            }
+
+            this.bindDeleteListById = function(callback) {   
+                this.deleteListById = callback;
+            }
+
+            this.deleteListByIdModel = function(id) {
+                var listIndex;
+                for (var index = 0; index < this.state.lists.length; index++) {
+                    var list = this.state.lists[index];
+                    if (list.id == id) {
+                        listIndex = index;
+                    }
+                }
+
+                if (this.getCurrentListMarkIndex() == listIndex) {
+                    this.renderHeadline('')
+                    this.renderCasesAdd(true);
+                    this.clearCases()
+                    this.renderProgress('')
+                }
+
+                this.state.lists.splice(listIndex, 1)
+
+                this.deleteListById(id);
+                localStorage.setItem('lists', JSON.stringify(this.state.lists))
+            }
+
+            this.bindChangeNewTextList = function(callback) {
+                this.changeNewTextList = callback;
+            }
+
+            this.changeNewTextListModel = function(text) {
+                this.state.newListText = text;
+                this.changeNewTextList(text);
+            }
+
+            this.bindChangeMarkListById = function(callback) {
+                this.changeMarkListById = callback;
+            }
+
+            this.changeMarkListByIdModel = function(id) {
+                for (var index = 0; index < this.state.lists.length; index++) {
+                    var list = this.state.lists[index];
+                    if (list.mark) {
+                        list.mark = false;
+                    }
+                    if (list.id == id) {
+                        list.mark = true;
+                    }
+                }
+                var currentList = this.state.lists[this.getCurrentListMarkIndex()];
+
+                this.changeMarkListById(id);                
+                this.renderHeadline(currentList.name)
+                this.renderCasesAdd();
+                this.clearCases()
+                for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                    var caseInit = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    this.displayAddCase(caseInit);
+                }
+                this.renderProgress(this.getProgress())
+                localStorage.setItem('lists', JSON.stringify(this.state.lists));
+            }
+
+            this.bindRenderHeadline = function(callback) {
+                this.renderHeadline = callback;
+            }
+
+            this.bindChangeNameListById = function(callback) {
+                this.changeNameListById = callback;
+            }
+
+            this.changeNameListByIdModel = function(text) {
+                var listIndexMark;
+                var listId;
+                for (var index = 0; index < this.state.lists.length; index++) {
+                    var list = this.state.lists[index];
+                    if (list.mark) {
+                        listIndexMark = index;
+                        listId = list.id;
+                    }
+                }
+                var currentList = this.state.lists[listIndexMark];
+                if (!text) {
+                    this.deleteListByIdModel(listId);
+                    return;
+                }
+                currentList.name = text;
+                this.changeNameListById(text, listId)
+                localStorage.setItem('lists', JSON.stringify(this.state.lists));
+            }
+
+            this.bindRenderCasesAdd = function(callback) {
+                this.renderCasesAdd = callback;
+            }
+            
+            this.bindChangeNewTextCase = function(callback) {
+                this.changeNewTextCase = callback;
+            }
+
+            this.changeNewTextCaseModel = function(text) {
+                this.state.newCaseText = text;
+                this.changeNewTextCase(text);
+            }
+
+            this.bindDisplayAddCase = function(callback) {   
+                this.displayAddCase = callback;
+            }
+
+            this.addCase = function() {
+                if (this.state.newCaseText) {
+                    var newCase = {
+                        name: this.state.newCaseText,
+                        id: Date.now(),
+                        done: false,
+                    }
+                    this.state.lists[this.getCurrentListMarkIndex()].cases.push(newCase);
+                    
+                    this.changeNewTextCaseModel('')
+                    this.displayAddCase(newCase);
+                    this.renderProgress(this.getProgress())
+                    localStorage.setItem('lists', JSON.stringify(this.state.lists))
+                }
+            }
+
+            this.bindClearCasesModel = function(callback) {   
+                this.clearCases = callback;
+            }
+
+            this.bindDeleteCaseById = function(callback) {   
+                this.deleteCaseById = callback;
+            }
+
+            this.deleteCaseByIdModel = function(id) {
+                var caseIndex;
+                for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                    var caseCurrent = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    if (caseCurrent.id == id) {
+                        caseIndex = index;
+                    }
+                }
+
+                this.state.lists[this.getCurrentListMarkIndex()].cases.splice(caseIndex, 1)
+
+                this.deleteCaseById(id);
+                this.renderProgress(this.getProgress())
+                localStorage.setItem('lists', JSON.stringify(this.state.lists))
+            }
+
+            this.bindChangeDoneCaseById = function(callback) {   
+                this.changeDoneCaseById = callback;
+            }
+
+            this.changeDoneCaseByIdModel = function(id) {
+                var caseIndex;
+                for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                    var caseCurrent = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    if (caseCurrent.id == id) {
+                        caseIndex = index;
+                    }
+                }
+
+                var caseWithChangeDone = this.state.lists[this.getCurrentListMarkIndex()].cases[caseIndex];
+
+                caseWithChangeDone.done = !caseWithChangeDone.done;
+
+                this.changeDoneCaseById(id, caseWithChangeDone.done);
+                this.renderProgress(this.getProgress())
+                localStorage.setItem('lists', JSON.stringify(this.state.lists))
+            }
+
+            this.bindChangeNameCaseById = function(callback) {   
+                this.changeNameCaseById = callback;
+            }
+            
+            this.changeNameCaseByIdModel = function(id, text) {
+                var caseIndex;
+                for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                    var caseCurrent = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    if (caseCurrent.id == id) {
+                        caseIndex = index;
+                    }
+                }
+
+                var caseWithChangeName = this.state.lists[this.getCurrentListMarkIndex()].cases[caseIndex];
+
+                if (!text) {
+                    this.deleteCaseByIdModel(id);
+                    return;
+                }
+
+                caseWithChangeName.name = text;
+
+                this.changeNameCaseById(id, text);
+                localStorage.setItem('lists', JSON.stringify(this.state.lists))
+            }
+
+            this.bindChangeOrderCase = function(callback) {   
+                this.changeOrderCase = callback;
+            }
+            
+            this.changeOrderCaseModel = function(dragCaseId, dropCaseId) {
+
+                var indexDragCaseById;
+                var indexDropCaseById;
+                for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                    var currentCase = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                    if (dragCaseId == currentCase.id) {
+                        indexDragCaseById = index;
+                    }
+                    if (dropCaseId == currentCase.id) {
+                        indexDropCaseById = index;
+                    }
+                }
+                var oldIndex = indexDragCaseById;
+                var newIndex
+                if (indexDragCaseById > indexDropCaseById) {
+                    this.changeOrderCase(dragCaseId, dropCaseId, "insertBefore");
+                    newIndex = indexDragCaseById-1;
+                }
+                if (indexDropCaseById == this.state.lists[this.getCurrentListMarkIndex()].cases.length - 1) {
+                    this.changeOrderCase(dragCaseId, null, "appendChild");
+                    newIndex = this.state.lists[this.getCurrentListMarkIndex()].cases.length - 1;
+                } else if (indexDragCaseById < indexDropCaseById) {
+                    this.changeOrderCase(dragCaseId, this.state.lists[this.getCurrentListMarkIndex()].cases[indexDropCaseById+1].id, "insertBefore");
+                    newIndex = indexDragCaseById+1;
+                }
+                this.state.lists[this.getCurrentListMarkIndex()].cases = this.arrayMove(this.state.lists[this.getCurrentListMarkIndex()].cases, oldIndex, newIndex);
+                localStorage.setItem('lists', JSON.stringify(this.state.lists))
+            }
+
+            this.initialization = function() {
+                for (var i = 0; i < this.state.lists.length; i++) {
+                    var list = this.state.lists[i];
+                    this.displayAddList(list);
+                }
+                if (this.getCurrentListMarkIndex() || this.getCurrentListMarkIndex() >= 0) {
+                    this.renderHeadline(this.state.lists[this.getCurrentListMarkIndex()].name)
+                    this.renderCasesAdd();
+                    for (var index = 0; index < this.state.lists[this.getCurrentListMarkIndex()].cases.length; index++) {
+                        var caseInit = this.state.lists[this.getCurrentListMarkIndex()].cases[index];
+                        this.displayAddCase(caseInit);
+                    }
+                    this.renderProgress(this.getProgress())
+                }
+            }
+
+            this.bindRenderProgress = function(callback) {   
+                this.renderProgress = callback;
+            }
+        }
+
+        function View() {
+
+            this.eventType = /Trident/.test( navigator.userAgent ) ? 'textinput' : 'input';
+
+            this.rootNode = document.querySelector('#root');
+            
+            this.leftSide = document.createElement('div');
+            this.leftSide.className = 'left-side';
+            this.rootNode.appendChild(this.leftSide);
+
+            this.rightSide = document.createElement('div');
+            this.rightSide.className = 'right-side';
+            this.rootNode.appendChild(this.rightSide);
+
+            this.headRight = document.createElement('div');
+            this.headRight.className = 'head-right';
+            this.rightSide.appendChild(this.headRight);
+
+            this.headline = document.createElement('h1');
+            this.headline.className = 'headline';
+            this.headline.setAttribute('contenteditable', 'true')
+            this.headRight.appendChild(this.headline);
+
+            this.progress = document.createElement('p');
+            this.progress.className = 'progres';
+            this.headRight.appendChild(this.progress);
+
+            this.casesAdd = document.createElement('div');
+            this.casesAdd.className = 'cases-add';
+            this.rightSide.appendChild(this.casesAdd);
+
+            this.casesNode = document.createElement('div');
+            this.casesNode.className = 'cases';
+            this.rightSide.appendChild(this.casesNode);
+
+            this.listsAddNode = document.createElement('div');
+            this.listsAddNode.className = 'lists__add';
+            this.leftSide.appendChild(this.listsAddNode);
+            this.listAddInputNode = document.createElement('input')
+            this.listAddInputNode.setAttribute('type', 'text')
+            this.listAddInputNode.setAttribute('placeholder', 'Введите новый список')
+            this.listAddInputNode.className = 'lists__add__input';
+            this.listsAddNode.appendChild(this.listAddInputNode);
+            this.listAddSubmitNode = document.createElement('button')
+            this.listAddSubmitNode.textContent = '+'
+            this.listAddSubmitNode.className = 'lists__add__submit';
+            this.listsAddNode.appendChild(this.listAddSubmitNode);
+
+            this.listsNode = document.createElement('div');
+            this.listsNode.className = 'lists';
+            this.leftSide.appendChild(this.listsNode);
+
+            this.bindAddList = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.className === "lists__add__submit") {
+                        handler()
+                        return;
+                    }
+                })
+            }
+            this.displayAddList = function(list) {
+                var listNode = document.createElement('div')
+                listNode.setAttribute('data-keylist', list.id)
+                listNode.className = 'list';
+                this.listsNode.appendChild(listNode);
+                var listTextNode = document.createElement('button')
+                listTextNode.textContent = list.name;
+                listTextNode.classList.add('list__text');
+                if (list.mark) {
+                    listTextNode.classList.add('list__text_mark');
+                }
+                listNode.appendChild(listTextNode);
+                var listDeleteNode = document.createElement('button')
+                listDeleteNode.textContent = '+'
+                listDeleteNode.className = 'list__delete';
+                listNode.appendChild(listDeleteNode);
+            }
+
+            this.bindDeleteListById = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.className === "list__delete") {
+                        handler(event.target.parentNode.getAttribute('data-keylist'))
+                        return;
+                    }
+                })
+            }
+            this.deleteListById = function(id) {
+                var deleteList = document.querySelector('[data-keylist="'+ id +'"]')
+                this.listsNode.removeChild(deleteList)
+            }
+
+            this.bindChangeNewTextList = function(handler) {
+                this.listAddInputNode.addEventListener('input', function(event) {
+                    handler(event.target.value)
+                    return;
+                })
+            }
+            this.changeNewTextList = function(text) {
+                this.listAddInputNode.value = text;
+            }
+
+            this.bindChangeMarkListById = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.classList.contains('list__text')) {
+                        handler(event.target.parentNode.getAttribute('data-keylist'))
+                        return;
+                    }
+                })
+            }
+            this.changeMarkListById = function(id) {
+                var markList = document.querySelector('.list__text_mark');
+                if (markList) {
+                    markList.classList.remove('list__text_mark');
+                }
+                var newMarkList = document.querySelector('[data-keylist="'+ id +'"] .list__text')
+                newMarkList.classList.add('list__text_mark');
+            }
+
+            this.renderHeadline = function(text) {
+                this.headline.textContent = text;
+            }
+
+            this.bindChangeNameListById = function(handler) {
+                this.headline.addEventListener(this.eventType, function(event) {
+                    handler(event.target.textContent)
+                })
+            }
+            this.changeNameListById = function(text, id) {
+                var list = document.querySelector('[data-keylist="'+ id +'"] .list__text')
+                list.textContent = text;
+            }
+
+            this.renderCasesAdd = function(empty) {
+                if (empty) {
+                    this.casesAdd.innerHTML = ''
+                    return;
+                }
+
+                if (this.casesAdd.querySelector('input')) {
+                    return;
+                }
+                
+                this.casesAddInputNode = document.createElement('input')
+                this.casesAddInputNode.setAttribute('type', 'text')
+                this.casesAddInputNode.setAttribute('placeholder', 'Введите новую задачу')
+                this.casesAddInputNode.className = 'cases-add__input';
+                this.casesAdd.appendChild(this.casesAddInputNode);
+                this.casesAddSubmitNode = document.createElement('button')
+                this.casesAddSubmitNode.textContent = '+'
+                this.casesAddSubmitNode.className = 'cases-add__submit';
+                this.casesAdd.appendChild(this.casesAddSubmitNode);
+            }
+
+            this.bindChangeNewTextCase = function(handler) {
+                this.rootNode.addEventListener('input', function(event) {
+                    if (event.target.classList.contains('cases-add__input')) {
+                        handler(event.target.value);
+                    }
+                })
+            }
+            this.changeNewTextCase = function(text) {
+                this.casesAddInputNode.value = text;
+            }
+            
+            this.bindAddCase = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.className === "cases-add__submit") {
+                        handler()
+                        return;
+                    }
+                })
+            }
+            this.displayAddCase = function(newCase) {
+                var caseNode = document.createElement('div')
+                caseNode.setAttribute('data-keycase', newCase.id)
+                caseNode.className = 'case';
+                this.casesNode.appendChild(caseNode);
+                var caseDoneNode = document.createElement('button');
+                caseDoneNode.textContent = '✓';
+                caseDoneNode.classList.add('case__done');
+                caseNode.appendChild(caseDoneNode);
+                var caseTextNode = document.createElement('span');
+                caseTextNode.setAttribute('contenteditable', 'true')
+                caseTextNode.textContent = newCase.name;
+                caseTextNode.classList.add('case__text');
+                if (newCase.done) {
+                    caseNode.classList.add('case_done');
+                }
+                caseNode.appendChild(caseTextNode);
+                var caseDragNode = document.createElement('button')
+                caseDragNode.textContent = '↕'
+                caseDragNode.className = 'case__drag';
+                caseNode.appendChild(caseDragNode);
+                var caseDeleteNode = document.createElement('button')
+                caseDeleteNode.textContent = '+'
+                caseDeleteNode.className = 'case__delete';
+                caseNode.appendChild(caseDeleteNode);
+            }
+
+            this.clearCases = function() {
+                this.casesNode.innerHTML = '';
+            }
+            
+            this.bindDeleteCaseById = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.className === "case__delete") {
+                        handler(event.target.parentNode.getAttribute('data-keycase'))
+                        return;
+                    }
+                })
+            }
+            this.deleteCaseById = function(id) {
+                var deleteList = document.querySelector('[data-keycase="'+ id +'"]')
+                this.casesNode.removeChild(deleteList)
+            }
+            
+            this.bindChangeDoneCaseById = function(handler) {
+                this.rootNode.addEventListener('click', function(event) {
+                    if (event.target.className === "case__done") {
+                        handler(event.target.parentNode.getAttribute('data-keycase'))
+                        return;
+                    }
+                })
+            }
+
+            this.changeDoneCaseById = function(id, status) {
+                var deleteList = document.querySelector('[data-keycase="'+ id +'"]')
+                if(status) {
+                    deleteList.classList.add('case_done')
+                } else {
+                    deleteList.classList.remove('case_done')
+                }
+            }
+
+            this.bindChangeNameCaseById = function(handler) {
+                this.rootNode.addEventListener(this.eventType, function(event) {
+                    if (event.target.className === "case__text") {
+                        handler(event.target.parentNode.getAttribute('data-keycase'), event.target.innerHTML)
+                        return;
+                    }
+                })
+            }
+            this.changeNameCaseById = function(id, text) {
+                var deleteListName = document.querySelector('[data-keycase="'+ id +'"] .case__text')
+                deleteListName.textContent = text;
+            }
+
+            this.renderProgress = function(text) {
+                this.progress.textContent = text;
+            }
+
+            this.bindChangeOrderCase = function(handler) {
+                this.rootNode.addEventListener('mousedown', function(event) {
+                    if (event.target.classList.contains('case__drag')) {
+                        var dragCaseId = event.target.parentNode.getAttribute('data-keycase')
+                        this.casesNode.classList.add('cases_drag')
+
+                        var cloneCase = event.target.parentNode.cloneNode(true);
+                        document.body.appendChild(cloneCase)
+
+                        cloneCase.style.width = event.target.parentNode.offsetWidth+'px';
+
+
+                        var shiftX = event.clientX - event.target.parentNode.getBoundingClientRect().left;
+                        var shiftY = event.clientY - event.target.parentNode.getBoundingClientRect().top;
+
+                        cloneCase.style.position = 'absolute'
+                        cloneCase.style.zIndex = 1000;
+
+                        var staticClientX = event.clientX;
+
+                        moveAt(event.pageX, event.pageY);
+                        
+                        function moveAt(pageX, pageY) {
+                            cloneCase.style.left = pageX - shiftX + 'px';
+                            cloneCase.style.top = pageY - shiftY + 'px';
+                        }
+
+                        function onMouseMove(event) {
+
+                            moveAt(event.pageX, event.pageY);
+
+                            cloneCase.style.display = 'none';
+                            var elemBelow = document.elementFromPoint(staticClientX, event.clientY);
+                            var dropCaseId = elemBelow.getAttribute('data-keycase')
+                            if (elemBelow.classList.contains('case') && dragCaseId !== dropCaseId) {
+                                handler(dragCaseId, dropCaseId);
+                            }
+                            cloneCase.style.display = 'flex';
+                        }
+                        
+                        document.addEventListener('mousemove', onMouseMove);
+
+                        cloneCase.onmouseup = function() {
+                            document.removeEventListener('mousemove', onMouseMove);
+                            document.body.removeChild(cloneCase)
+                            this.casesNode.classList.remove('cases_drag')
+                            cloneCase.onmouseup = null;
+                        }.bind(this);
+                        return;
+                    }
+                }.bind(this))
+            }
+
+            this.changeOrderCase = function(dragCaseId, dropCaseId, type) {
+                if (type == 'insertBefore') {
+                    var dragCase = this.casesNode.querySelector('[data-keycase="'+ dragCaseId +'"]')
+                    var dropCase = this.casesNode.querySelector('[data-keycase="'+ dropCaseId +'"]')
+                    this.casesNode.insertBefore(dragCase, dropCase)
+
+                }
+                if (type == 'appendChild') {
+                    var dragCase = this.casesNode.querySelector('[data-keycase="'+ dragCaseId +'"]')
+                    this.casesNode.appendChild(dragCase)
+
+                }
+            }
+
+            
+        }
+
+        function Controller(model, view) {
+            this.model = model;
+            this.view = view;
+
+            this.model.bindDisplayAddList(this.displayAddList.bind(this));
+            this.view.bindAddList(this.handleAddList.bind(this));
+            
+            this.model.bindDeleteListById(this.deleteListById.bind(this));
+            this.view.bindDeleteListById(this.handleDeleteListById.bind(this));
+
+            this.model.bindChangeNewTextList(this.displayChangeNewTextList.bind(this));
+            this.view.bindChangeNewTextList(this.handleChangeNewTextList.bind(this));
+
+            this.model.bindChangeMarkListById(this.displayChangeMarkListById.bind(this));
+            this.view.bindChangeMarkListById(this.handleChangeMarkListById.bind(this));
+
+            this.model.bindRenderHeadline(this.displayHeadline.bind(this));
+
+            this.model.bindChangeNameListById(this.displayChangeNameListById.bind(this));
+            this.view.bindChangeNameListById(this.handleChangeNameListById.bind(this));
+
+            this.model.bindRenderCasesAdd(this.displayCasesAdd.bind(this));
+
+            this.model.bindChangeNewTextCase(this.displayChangeNewTextCase.bind(this));
+            this.view.bindChangeNewTextCase(this.handleChangeNewTextCase.bind(this));
+
+            this.model.bindDisplayAddCase(this.displayAddCase.bind(this));
+            this.view.bindAddCase(this.handleAddCase.bind(this));
+
+            this.model.bindClearCasesModel(this.clearCases.bind(this));
+            
+            this.model.bindDeleteCaseById(this.deleteCaseById.bind(this));
+            this.view.bindDeleteCaseById(this.handleDeleteCaseById.bind(this));
+            
+            this.model.bindChangeDoneCaseById(this.changeDoneCaseById.bind(this));
+            this.view.bindChangeDoneCaseById(this.handleChangeDoneCaseById.bind(this));
+            
+            this.model.bindChangeNameCaseById(this.changeNameCaseById.bind(this));
+            this.view.bindChangeNameCaseById(this.handleChangeNameCaseById.bind(this));
+
+            this.model.bindRenderProgress(this.displayProgress.bind(this));
+            
+            this.model.bindChangeOrderCase(this.changeOrderCase.bind(this));
+            this.view.bindChangeOrderCase(this.handleChangeOrderCase.bind(this));
+            
+            this.model.initialization();
+        }
+
+        Controller.prototype.displayAddList = function(list) {
+            this.view.displayAddList(list);
+        }
+        Controller.prototype.handleAddList = function() {
+            this.model.addList();
+        }
+
+        Controller.prototype.deleteListById = function(id) {
+            this.view.deleteListById(id);
+        }
+        Controller.prototype.handleDeleteListById = function(id) {
+            this.model.deleteListByIdModel(id);
+        }
+
+        Controller.prototype.displayChangeNewTextList = function(text) {
+            this.view.changeNewTextList(text);
+        }
+        Controller.prototype.handleChangeNewTextList = function(text) {
+            this.model.changeNewTextListModel(text);
+        }
+
+        Controller.prototype.displayChangeMarkListById = function(id) {
+            this.view.changeMarkListById(id);
+        }
+        Controller.prototype.handleChangeMarkListById = function(id) {
+            this.model.changeMarkListByIdModel(id);
+        }
+
+        Controller.prototype.displayHeadline = function(text) {
+            this.view.renderHeadline(text);
+        }
+
+        Controller.prototype.displayChangeNameListById = function(text, id) {
+            this.view.changeNameListById(text, id);
+        }
+        Controller.prototype.handleChangeNameListById = function(text) {
+            this.model.changeNameListByIdModel(text);
+        }
+
+        Controller.prototype.displayCasesAdd = function(emty) {
+            this.view.renderCasesAdd(emty);
+        }
+
+        Controller.prototype.displayChangeNewTextCase = function(text) {
+            this.view.changeNewTextCase(text);
+        }
+        Controller.prototype.handleChangeNewTextCase = function(text) {
+            this.model.changeNewTextCaseModel(text);
+        }
+
+        Controller.prototype.displayAddCase = function(newCase) {
+            this.view.displayAddCase(newCase);
+        }
+        Controller.prototype.handleAddCase = function() {
+            this.model.addCase();
+        }
+
+        Controller.prototype.clearCases = function() {
+            this.view.clearCases();
+        }
+
+        Controller.prototype.deleteCaseById = function(id) {
+            this.view.deleteCaseById(id);
+        }
+        Controller.prototype.handleDeleteCaseById = function(id) {
+            this.model.deleteCaseByIdModel(id);
+        }
+
+        Controller.prototype.changeDoneCaseById = function(id, status) {
+            this.view.changeDoneCaseById(id, status);
+        }
+        Controller.prototype.handleChangeDoneCaseById = function(id) {
+            this.model.changeDoneCaseByIdModel(id);
+        }
+
+        Controller.prototype.changeNameCaseById = function(id, text) {
+            this.view.changeNameCaseById(id, text);
+        }
+        Controller.prototype.handleChangeNameCaseById = function(id, text) {
+            this.model.changeNameCaseByIdModel(id, text);
+        }
+
+        Controller.prototype.displayProgress = function(text) {
+            this.view.renderProgress(text);
+        }
+
+        Controller.prototype.changeOrderCase = function(dragCaseId, dropCaseId, type) {
+            this.view.changeOrderCase(dragCaseId, dropCaseId, type);
+        }
+        Controller.prototype.handleChangeOrderCase = function(dragCaseId, dropCaseId) {
+            this.model.changeOrderCaseModel(dragCaseId, dropCaseId);
+        }
+
+        var App = new Controller(new Model, new View)
+
+        
+
+    </script>
+</body>
+</html>
