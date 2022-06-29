@@ -1,3 +1,3 @@
 ## Nested task list from scratch in Pure JS
 
-![](/lobanov-andrey/nested-task-lists/blob/master/preview.gif)
+![](https://github.com/lobanov-andrey/nested-task-lists/blob/master/preview.gif)
